@@ -6,12 +6,6 @@ namespace MyApp // Note: actual namespace depends on the project name.
     {
         static void Main(string[] args)
         {
-
-            // Get key
-            // Get word
-            // sanitize ( remove special characters )
-            // remove duplicate letters
-            //
             string decision = "";
             while (true)
             {
@@ -32,10 +26,11 @@ namespace MyApp // Note: actual namespace depends on the project name.
             if (decision == "E")
             {
                 Console.WriteLine("ENTER WORD TO BE CIPHERED");
-                string Word = Console.ReadLine();
+                string Word = Console.ReadLine().ToUpper();
 
                 string Ciphered = CipherWord(Word, Cipher);
                 outputWord(Ciphered);
+                Console.WriteLine(Ciphered);
             }
             // decrypt
             else if (decision == "D")
@@ -43,6 +38,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 string Word = WordToDecipher();
                 string DecipheredWord = DecipherWord(Word, Cipher);
                 Console.WriteLine(DecipheredWord);
+                Console.ReadLine();
             }
         }
 
@@ -57,11 +53,13 @@ namespace MyApp // Note: actual namespace depends on the project name.
                     temp += " ";
                 else
                 {
-
-                    Console.WriteLine("ALPHABET: " + alphabet);
+                    //Console.WriteLine("ALPHABET: " + alphabet);
+                   //Console.WriteLine("CIPHER: " + cipher);
+                    //Console.WriteLine("WORD: " + word);
+                    //Console.WriteLine("WORD[i]: " +  word[i]);
                     int index = Array.IndexOf(alphabet.ToArray(), word[i]);
-                    Console.WriteLine("INDEX IS: " + index);
-                    Console.WriteLine("ALPHABET COUNT: " + alphabet.Count());
+                    //Console.WriteLine("INDEX IS: " + index);
+                    //Console.WriteLine("ALPHABET COUNT: " + alphabet.Count());
                     temp += cipher[index];
                 }
                     
@@ -79,7 +77,10 @@ namespace MyApp // Note: actual namespace depends on the project name.
                 if (word[i].ToString() == " ")
                     temp += " ";
                 else
-                    temp += alphabet[Array.IndexOf(cipher.ToArray(), word[i])];
+                {
+                    int index = Array.IndexOf(cipher.ToArray(), word[i]);
+                    temp += alphabet[index];
+                }
 
             }
             return temp;
