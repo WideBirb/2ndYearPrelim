@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection.Metadata;
 
-namespace MyApp // Note: actual namespace depends on the project name.
+namespace MyApp 
 {
     internal class Program
     {
@@ -33,9 +33,9 @@ namespace MyApp // Note: actual namespace depends on the project name.
             {
                 Console.WriteLine("Enter word to be ciphered: ");
                 string Word = Console.ReadLine().ToUpper();
-                string Ciphered = Translate(Word, Cipher, "Cipher");
-                streamWrite(Ciphered);
-                Console.WriteLine(Ciphered);
+                string CipheredWord = Translate(Word, Cipher, "Cipher");
+                streamWrite(CipheredWord);
+                Console.WriteLine(CipheredWord);
                 Console.ReadLine();
             }
             else if (decision == "D")
@@ -47,34 +47,33 @@ namespace MyApp // Note: actual namespace depends on the project name.
             }
         }
 
-        static string Translate(string word, string cipher, string type)
+        static string Translate(string word, string cipher, string mode)
         {
             string alphabet = initializeAlphabet();
-            string temp = "";
+            string newText = "";
 
             for (int i = 0; i < word.Length; i++) 
             {
-                if (!isSpecialChar(word[i].ToString()))
-                    temp += word[i];
+                if (!isUpperCaseAlphabet(word[i].ToString()))
+                    newText += word[i];
                 else
                 {
-                    if (type == "Cipher")
+                    if (mode == "Cipher")
                     {
                         int index = Array.IndexOf(alphabet.ToArray(), word[i]);
-                        temp += cipher[index];
+                        newText += cipher[index];
                     }
-                    else if (type == "Decipher")
+                    else if (mode == "Decipher")
                     {
                         int index = Array.IndexOf(cipher.ToArray(), word[i]);
-                        temp += alphabet[index];
+                        newText += alphabet[index];
                     }
                 }
-                    
             }
-            return temp;
+            return newText;
         }
 
-        static bool isSpecialChar(string letter)
+        static bool isUpperCaseAlphabet(string letter)
         {
             for (int ascii = 65; ascii < 91; ascii++)
                 if (letter == (((char)ascii).ToString()))
@@ -95,7 +94,6 @@ namespace MyApp // Note: actual namespace depends on the project name.
             return cipherFiller(removeDuplicates(sanitize(key.ToUpper())));
         }
 
-        // removes every special characters and number
         static string sanitize(string word)
         {
             string newKey = "";
@@ -111,20 +109,14 @@ namespace MyApp // Note: actual namespace depends on the project name.
             for (int i = 0; i < word.Length; i++)
                 if (!letters.Contains(word[i].ToString()))
                     letters.Add(word[i].ToString());
-
             return letters;
         }
-        
-        // finishes the cypher
+    
         static string cipherFiller(List<string> letters)
         {
-            // fills in the remaining cipher
             for (int ascii = 65; ascii < 91; ascii++)
-                // if the cypher does not contain the letter yet, it will be added
                 if (!letters.Contains(((char)ascii).ToString()))
                     letters.Add(((char)ascii).ToString());
-
-            //turns the list into string
             return string.Join("", letters);
         }
 
