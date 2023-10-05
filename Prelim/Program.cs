@@ -1,12 +1,44 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection.Metadata;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MyApp 
 {
     internal class Program
     {
         static void Main(string[] args)
+        {
+            runLogic();
+            Console.ReadKey();
+        }
+
+        static void runLogic()
+        {
+            string decision = userOption();
+            Console.WriteLine("Enter key");
+            string key = Console.ReadLine();
+            string Cipher = BuildCipher(key);
+
+            if (decision == "E")
+            {
+                Console.WriteLine("Enter word to be ciphered: ");
+                string Text = Console.ReadLine().ToUpper();
+                string CipheredWord = Translate(Text, Cipher, "Cipher");
+                streamWrite(CipheredWord);
+                Console.WriteLine(CipheredWord);
+                Console.ReadLine();
+            }
+            else if (decision == "D")
+            {
+                string Text = streamRead();
+                string DecipheredWord = Translate(Text, Cipher, "Decipher");
+                Console.WriteLine(DecipheredWord);
+                Console.ReadLine();
+            }
+        }
+
+        static string userOption()
         {
             string decision = "";
             while (true)
@@ -19,32 +51,7 @@ namespace MyApp
                 if (decision == "E" || decision == "D")
                     break;
             }
-
-            Console.Clear();
-            Console.WriteLine("Entering Machine Mode");
-            Console.ReadLine();
-            Console.Clear();
-
-            Console.WriteLine("Enter key");
-            string key = Console.ReadLine();
-            string Cipher = BuildCipher(key);
-
-            if (decision == "E")
-            {
-                Console.WriteLine("Enter word to be ciphered: ");
-                string Word = Console.ReadLine().ToUpper();
-                string CipheredWord = Translate(Word, Cipher, "Cipher");
-                streamWrite(CipheredWord);
-                Console.WriteLine(CipheredWord);
-                Console.ReadLine();
-            }
-            else if (decision == "D")
-            {
-                string Word = streamRead();
-                string DecipheredWord = Translate (Word, Cipher, "Decipher");
-                Console.WriteLine(DecipheredWord);
-                Console.ReadLine();
-            }
+            return decision;
         }
 
         static string Translate(string word, string cipher, string mode)
